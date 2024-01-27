@@ -5,7 +5,7 @@ from sklearn.neighbors import NearestNeighbors
 
 class CounterfactualSMOTE:
 
-    def __init__(self, k_neighbors=3, n_iter=100, random_state=22, opt_steps=10, strategy="majority", origin="majority"):
+    def __init__(self, k_neighbors=3, n_iter=100, random_state=22, opt_steps=10, strategy="majority"):
         self.k_neighbors = k_neighbors
         self.n_iter = n_iter
         self.random_state = random_state
@@ -13,7 +13,6 @@ class CounterfactualSMOTE:
         self.majority_neighbors_model = None
         self.opt_steps = opt_steps
         self.strategy = strategy
-        self.origin = origin
 
     def _fit_neighbors_models(self, X_minority, X_majority):
 
@@ -24,10 +23,7 @@ class CounterfactualSMOTE:
 
     def _binary_search(self, minority_sample, majority_neighbor):
 
-        if self.origin == "minority":
-            direction = minority_sample - majority_neighbor
-        else:
-            direction = majority_neighbor - minority_sample
+        direction = minority_sample - majority_neighbor
 
         low = 0.0
         high = 1.0
