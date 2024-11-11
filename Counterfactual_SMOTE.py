@@ -5,7 +5,7 @@ from sklearn.neighbors import NearestNeighbors
 
 class CounterfactualSMOTE:
 
-    def __init__(self, k_neighbors=3, n_iter=100, random_state=22, opt_steps=10, strategy="majority"):
+    def __init__(self, k_neighbors=3, n_iter=100, random_state=22, opt_steps=10, strategy="flexible"):
         self.k_neighbors = k_neighbors
         self.n_iter = n_iter
         self.random_state = random_state
@@ -49,7 +49,7 @@ class CounterfactualSMOTE:
             distances[: self.k_neighbors] = distances_majority
             distances[self.k_neighbors:] = distances_minority
 
-            boundary = self.k_neighbors // 2 + 1 if self.strategy == "majority" else 1
+            boundary = self.k_neighbors // 2 + 1 if self.strategy == "flexible" else 1
 
             if np.sum(np.isin(np.argsort(distances)[: self.k_neighbors], range(self.k_neighbors))) >= boundary:
 
